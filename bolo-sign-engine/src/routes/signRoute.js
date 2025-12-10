@@ -98,14 +98,19 @@ router.post('/', async (req, res) => {
       // Continue even if audit fails - return the signed PDF
     }
 
-    return res.json({
+    const response = {
       success: true,
       signedPdfUrl: storageUrl,
       signedPdfBase64: signedPdfBase64, // Add base64 for immediate download
       auditId: audit?._id || null,
       originalHash,
       signedHash
-    });
+    };
+    
+    console.log('Returning response with base64:', !!response.signedPdfBase64);
+    console.log('Storage URL:', storageUrl);
+    
+    return res.json(response);
 
   } catch (err) {
     console.error('Error in /sign-pdf:', err);

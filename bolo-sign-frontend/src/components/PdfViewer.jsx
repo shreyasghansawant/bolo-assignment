@@ -118,10 +118,21 @@ function PdfViewer({ pdfFile, pdfUrl, fields, selectedField, onSelectField, onUp
             coords,
             userId: 'user-123'
           });
-          // Prefer base64 URL for immediate download, fallback to server URL
+          // Always prefer base64 URL for immediate download (no server fetch needed)
+          console.log('API Response:', result);
           const pdfUrl = result.signedPdfBase64 || result.signedPdfUrl;
-          if (onPdfSigned && pdfUrl) onPdfSigned(pdfUrl);
-          else alert(`PDF signed! Download: ${pdfUrl}`);
+          console.log('Using PDF URL:', pdfUrl?.substring(0, 50) + '...');
+          
+          if (!pdfUrl) {
+            alert('Error: No PDF URL returned from server');
+            return;
+          }
+          
+          if (onPdfSigned) {
+            onPdfSigned(pdfUrl);
+          } else {
+            alert(`PDF signed! Download: ${pdfUrl.substring(0, 50)}...`);
+          }
         } catch (error) {
           alert(`Error: ${error.message}`);
         }
