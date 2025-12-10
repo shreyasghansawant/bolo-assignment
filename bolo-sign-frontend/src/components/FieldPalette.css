@@ -1,0 +1,36 @@
+.field-palette {
+  width: 190px;
+  background: #f7f7f7;
+  border-right: 1px solid #d0d0d0;
+  padding: 0.75rem;
+  overflow-y: auto;
+}
+
+.field-palette h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  color: #222;
+}
+
+.field-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field-button {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-align: left;
+  width: 100%;
+}
+
+.field-button:hover {
+  background: #efefef;
+}
+
+

@@ -1,0 +1,41 @@
+.pdf-viewer-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #f2f2f2;
+  overflow: auto;
+}
+
+.pdf-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.5rem;
+  overflow: auto;
+}
+
+.page-wrapper {
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  background: #fff;
+}
+
+.loading {
+  padding: 1.5rem;
+  text-align: center;
+  color: #555;
+}
+
+.error-message {
+  padding: 1.25rem;
+  text-align: center;
+  color: #b00020;
+  background: #fdecec;
+  border: 1px solid #f3b5b5;
+  border-radius: 3px;
+  margin: 1.5rem;
+  max-width: 520px;
+}
+
+
