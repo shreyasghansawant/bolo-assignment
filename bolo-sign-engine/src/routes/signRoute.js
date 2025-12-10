@@ -72,34 +72,48 @@ router.post('/', async (req, res) => {
     }
 
     const signedHash = sha256Hex(signedBuffer);
+    
+    // Store file locally (for audit trail)
     const storageUrl = await storeBufferLocal(signedBuffer, 'signed.pdf');
+    
+    // Also return PDF as base64 for immediate download
+    const signedPdfBase64 = `data:application/pdf;base64,${signedBuffer.toString('base64')}`;
 
-    const audit = await Audit.create({
-      pdfId: pdfId || pdfUrl || 'unknown',
-      userId: userId || null,
-      action: 'sign',
-      originalHash,
-      signedHash,
-      coords,
-      page: coords.page || 1,
-      storageUrl,
-      createdAt: new Date()
-    });
+    let audit = null;
+    try {
+      audit = await Audit.create({
+        pdfId: pdfId || pdfUrl || 'unknown',
+        userId: userId || null,
+        action: 'sign',
+        originalHash,
+        signedHash,
+        coords,
+        page: coords.page || 1,
+        storageUrl,
+        createdAt: new Date()
+      });
+      console.log('Audit record created:', audit._id);
+    } catch (dbError) {
+      console.error('Failed to create audit record:', dbError);
+      // Continue even if audit fails - return the signed PDF
+    }
 
     return res.json({
       success: true,
       signedPdfUrl: storageUrl,
-      auditId: audit._id,
+      signedPdfBase64: signedPdfBase64, // Add base64 for immediate download
+      auditId: audit?._id || null,
       originalHash,
       signedHash
     });
 
   } catch (err) {
     console.error('Error in /sign-pdf:', err);
+    console.error('Error stack:', err.stack);
     return res.status(500).json({
       error: 'server_error',
       message: 'An internal server error occurred',
-      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+      details: process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production' ? err.message : undefined
     });
   }
 });

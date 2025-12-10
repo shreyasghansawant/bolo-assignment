@@ -118,8 +118,10 @@ function PdfViewer({ pdfFile, pdfUrl, fields, selectedField, onSelectField, onUp
             coords,
             userId: 'user-123'
           });
-          if (onPdfSigned && result.signedPdfUrl) onPdfSigned(result.signedPdfUrl);
-          else alert(`PDF signed! Download: ${result.signedPdfUrl}`);
+          // Prefer base64 URL for immediate download, fallback to server URL
+          const pdfUrl = result.signedPdfBase64 || result.signedPdfUrl;
+          if (onPdfSigned && pdfUrl) onPdfSigned(pdfUrl);
+          else alert(`PDF signed! Download: ${pdfUrl}`);
         } catch (error) {
           alert(`Error: ${error.message}`);
         }
