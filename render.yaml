@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: bolo-sign-engine
+    rootDir: bolo-sign-engine
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: BASE_URL
+        sync: false
+
