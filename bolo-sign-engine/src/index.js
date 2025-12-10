@@ -48,8 +48,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Handle preflight OPTIONS requests
-app.options('*', cors());
+// CORS middleware already handles OPTIONS preflight requests automatically
+// No need for explicit app.options() handler
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
